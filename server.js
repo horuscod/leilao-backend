@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const helmet = require("helmet");
 const cors = require("cors");
-const port = 1998;
-
+require("dotenv").config();
+const port = process.env.PORT || 1998;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,6 +22,11 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+/* BackOffice Routes */
+
+const usersBackOffice = require("./api/routes/usersBackoffice");
+app.use(usersBackOffice);
 
 app.get("/", (req, res) => {
   res.send("Olá, Hórus!");
