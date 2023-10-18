@@ -10,7 +10,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(cors());
 
-const whitelist = ["http://localhost:9000", "http://192.168.18.7:9000"];
+const whitelist = [
+  "http://localhost:9000",
+  "http://192.168.18.7:9000",
+  "http://localhost:3000",
+  "http://192.168.18.7:3000",
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
