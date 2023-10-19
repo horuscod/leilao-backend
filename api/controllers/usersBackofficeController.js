@@ -46,6 +46,26 @@ createNewAdminUser = (req, res) => {
     });
 };
 
+getAllAdminUsers = (req, res) => {
+  const db = admin.firestore();
+  const usersCollection = db.collection("usersBackOffice");
+  const responseData = [];
+
+  usersCollection
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        var document = doc.data();
+        responseData.push(document);
+      });
+      res.json(responseData);
+    })
+    .catch((error) => {
+      console.error("Erro ao obter documentos: ", error);
+      res.status(500).json({ error: "Erro ao obter documentos" });
+    });
+};
+
 editAdminUser = (req, res) => {
   const db = admin.firestore();
   const { customer } = req.body;
@@ -267,6 +287,7 @@ deleteEditorUser = (req, res) => {
 
 module.exports = {
   createNewAdminUser,
+  getAllAdminUsers,
   editAdminUser,
   deleteAdminUser,
   createNewEditorUser,
