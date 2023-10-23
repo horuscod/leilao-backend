@@ -30,10 +30,11 @@ app.use(cors(corsOptions));
 
 /* BackOffice Routes */
 
-const usersBackOffice = require("./api/routes/usersBackoffice");
+const usersBackOffice = require("./api/routes/panelAdmin/usersBackoffice");
 const productsBackOffice = require("./api/routes/panelAdmin/productsBackoffice");
 app.use(usersBackOffice);
 app.use(productsBackOffice);
+
 
 /* Web site Routes */
 
