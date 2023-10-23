@@ -12,12 +12,37 @@ const getDateHoursSaoPaulo = () => {
 
 createNewProduct = (req, res) => {
   const db = admin.firestore();
-  const { productName, email, password } = req.body;
+  const {
+    name,
+    marketPrice,
+    minLance,
+    maxLance,
+    valueFree,
+    mainURLImage,
+    images,
+    dateLucky,
+    botWin,
+  } = req.body;
+
   var dateCurrentily = getDateHoursSaoPaulo();
 
   db.collection("products")
-    .add({})
-    .then((productCreated) => {})
+    .add({
+      name: name,
+      marketPrice: marketPrice,
+      minLance: minLance,
+      maxLance: maxLance,
+      valueFree: valueFree,
+      mainURLImage: mainURLImage,
+      images: images,
+      dateLucky: admin.firestore.Timestamp.fromDate(new Date(dateCurrentily)),
+      botWin: botWin,
+    })
+    .then((productCreated) => {
+      console.log("Produto criado");
+      console.log(productCreated);
+      res.status(201).end();
+    })
     .catch((error) => {
       console.log("Error creating new user:", error);
       res.status(500).end();

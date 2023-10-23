@@ -31,7 +31,9 @@ app.use(cors(corsOptions));
 /* BackOffice Routes */
 
 const usersBackOffice = require("./api/routes/usersBackoffice");
+const productsBackOffice = require("./api/routes/panelAdmin/productsBackoffice");
 app.use(usersBackOffice);
+app.use(productsBackOffice);
 
 app.get("/", (req, res) => {
   res.send("Olá, Hórus!");

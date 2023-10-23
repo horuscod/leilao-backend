@@ -8,3 +8,5 @@ router.post("/newProduct", productController.createNewProduct);
 
 /* Rotas do site */
 router.get("/products", productController.getAllProducts);
+
+module.exports = router;
