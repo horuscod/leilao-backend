@@ -18,6 +18,7 @@ admin.initializeApp({
       "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-pu8gb%40projeto-leilao-69276.iam.gserviceaccount.com",
     universe_domain: "googleapis.com",
   }),
+  databaseURL: "projeto-leilao-69276.firebaseapp.com",
 });
 
 module.exports = admin;
