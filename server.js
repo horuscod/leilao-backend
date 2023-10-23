@@ -35,6 +35,10 @@ const productsBackOffice = require("./api/routes/panelAdmin/productsBackoffice")
 app.use(usersBackOffice);
 app.use(productsBackOffice);
 
+/* Web site Routes */
+
+const usersRouters = require("./api/routes/webSite/usersRouters");
+app.use(usersRouters);
 app.get("/", (req, res) => {
   res.send("Olá, Hórus!");
 });
