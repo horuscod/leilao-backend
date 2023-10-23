@@ -66,6 +66,7 @@ userLogin = (req, res) => {
     .then((userCredential) => {
       const user = userCredential.user;
       console.log(`User ${user.email} is authenticated`);
+      res.json(user);
       res.status(200).end();
     })
     .catch((error) => {
