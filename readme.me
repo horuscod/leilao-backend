@@ -1,0 +1,23 @@
+Tipos de usuário no sistema 
+Propriedade do DBA para usuário: "typeProfile": NUMBER
+
+Especificações 
+
+0 = Usuário normal para acesso ao WEBSITE
+1 = Usuário Adminstrador controle total no Painel Admin(Backoffice) 
+2 = Usuário Editor no Painel Admin(Backoffice)
+3 = Usuário Bot para LANCES AUTOMATICOS
+
+DB Refs 
+
+typeProfile: 0 - usersWebSite
+typeProfile: 1 - usersBackOffice
+typeProfile: 2 - usersBackOffice
+typeProfile: 3 - usersBots
+
+
+Status Router usersWebSite
+
+- Router: /login - POST - {EMAIL, PASSWORD} 
+  -- STATUS 200: Usuário autenticado
+  -- STATUS 401: Usuário erro senha ou e-mail. Não autenticado
