@@ -35,6 +35,7 @@ createNewProduct = (req, res) => {
       valueFree: valueFree,
       mainURLImage: mainURLImage,
       images: images,
+      dateCurrentilyLance: 0,
       dateLucky: admin.firestore.Timestamp.fromDate(new Date(dateCurrentily)),
       botWin: botWin,
     })
@@ -45,6 +46,7 @@ createNewProduct = (req, res) => {
     })
     .catch((error) => {
       console.log("Error creating new user:", error);
+      res.json(error);
       res.status(500).end();
     });
 };
