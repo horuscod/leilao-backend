@@ -12,6 +12,7 @@ const getDateHoursSaoPaulo = () => {
 
 createNewProduct = (req, res) => {
   const db = admin.firestore();
+
   const {
     name,
     marketPrice,
@@ -23,6 +24,8 @@ createNewProduct = (req, res) => {
     dateLucky,
     botWin,
   } = req.body;
+
+  console.log(req.body);
 
   var dateCurrentily = getDateHoursSaoPaulo();
 
