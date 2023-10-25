@@ -33,9 +33,11 @@ app.use(cors(corsOptions));
 const usersBackOffice = require("./api/routes/panelAdmin/usersBackoffice");
 const productsBackOffice = require("./api/routes/panelAdmin/productsBackoffice");
 const packagesBackofficeRouters = require("./api/routes/panelAdmin/packagesBackofficeRouters");
+const championsBackofficeRouters = require("./api/routes/panelAdmin/championsBackofficeRouters");
 app.use(usersBackOffice);
 app.use(productsBackOffice);
 app.use(packagesBackofficeRouters);
+app.use(championsBackofficeRouters);
 
 /* Web site Routes */
 
