@@ -52,7 +52,7 @@ createNewProduct = (req, res) => {
       imgCarrousel3: imgCarrousel3,
 
       dateCurrentilyLance: 0,
-      dateLucky: admin.firestore.Timestamp.fromDate(new Date(dateCurrentily)),
+      
       botWin: botWin,
     })
     .then((productCreated) => {
