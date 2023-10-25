@@ -12,7 +12,6 @@ const getDateHoursSaoPaulo = () => {
 
 createNewProduct = (req, res) => {
   const db = admin.firestore();
-
   const {
     name,
     marketPrice,
@@ -24,7 +23,6 @@ createNewProduct = (req, res) => {
     imgCarrousel2,
     imgCarrousel3,
     minLance,
-    valeuFree,
     botWin,
     maxLance,
     valueFree,
@@ -50,9 +48,7 @@ createNewProduct = (req, res) => {
       imgCarrousel1: imgCarrousel1,
       imgCarrousel2: imgCarrousel2,
       imgCarrousel3: imgCarrousel3,
-
       dateCurrentilyLance: 0,
-      
       botWin: botWin,
     })
     .then((productCreated) => {
