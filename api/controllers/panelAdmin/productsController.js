@@ -16,13 +16,17 @@ createNewProduct = (req, res) => {
   const {
     name,
     marketPrice,
+    warrantyTime,
+    dateInit,
+    description,
+    imgMain,
+    imgCarrousel1,
+    imgCarrousel2,
+    imgCarrousel3,
     minLance,
-    maxLance,
-    valueFree,
-    mainURLImage,
-    images,
-    dateLucky,
+    valeuFree,
     botWin,
+    maxLance,
   } = req.body;
 
   console.log(req.body);
@@ -33,14 +37,25 @@ createNewProduct = (req, res) => {
     .add({
       name: name,
       marketPrice: marketPrice,
+      warrantyTime: warrantyTime,
+      dateInit: dateInit,
+      description: description,
+
       minLance: minLance,
       maxLance: maxLance,
       valueFree: valueFree,
       mainURLImage: mainURLImage,
-      images: images,
+
+      imgMain: imgMain,
+      imgCarrousel1: imgCarrousel1,
+      imgCarrousel2: imgCarrousel2,
+      imgCarrousel3: imgCarrousel3,
+
       dateCurrentilyLance: 0,
       dateLucky: admin.firestore.Timestamp.fromDate(new Date(dateCurrentily)),
       botWin: botWin,
+
+      valeuFree: valeuFree,
     })
     .then((productCreated) => {
       console.log("Produto criado");
