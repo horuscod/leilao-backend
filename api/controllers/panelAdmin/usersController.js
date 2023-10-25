@@ -52,6 +52,7 @@ getAllAdminUsers = (req, res) => {
   const responseData = [];
 
   usersCollection
+    .where("typeProfile", "==", 1)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
