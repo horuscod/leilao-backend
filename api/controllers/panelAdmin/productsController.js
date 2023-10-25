@@ -34,22 +34,22 @@ createNewProduct = (req, res) => {
 
   db.collection("products")
     .add({
-      name: name,
-      marketPrice: marketPrice,
-      warrantyTime: warrantyTime,
-      dateInit: dateInit,
-      description: description,
+      name: name || "",
+      marketPrice: marketPrice || "",
+      warrantyTime: warrantyTime || "",
+      dateInit: dateInit || "",
+      description: description || "",
 
-      minLance: minLance,
-      maxLance: maxLance,
-      valueFree: valueFree,
+      minLance: minLance || "",
+      maxLance: maxLance || "",
+      valueFree: valueFree || "",
 
-      mainURLImage: imgMain,
-      imgCarrousel1: imgCarrousel1,
-      imgCarrousel2: imgCarrousel2,
-      imgCarrousel3: imgCarrousel3,
+      mainURLImage: imgMain || "",
+      imgCarrousel1: imgCarrousel1 || "",
+      imgCarrousel2: imgCarrousel2 || "",
+      imgCarrousel3: imgCarrousel3 || "",
       dateCurrentilyLance: 0,
-      botWin: botWin,
+      botWin: botWin || false,
     })
     .then((productCreated) => {
       console.log("Produto criado");
