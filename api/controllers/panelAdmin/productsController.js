@@ -45,9 +45,8 @@ createNewProduct = (req, res) => {
       minLance: minLance,
       maxLance: maxLance,
       valueFree: valueFree,
-      mainURLImage: mainURLImage,
 
-      imgMain: imgMain,
+      mainURLImage: imgMain,
       imgCarrousel1: imgCarrousel1,
       imgCarrousel2: imgCarrousel2,
       imgCarrousel3: imgCarrousel3,
