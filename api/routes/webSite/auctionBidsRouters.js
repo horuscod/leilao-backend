@@ -4,8 +4,8 @@ const auctionBidsController = require("../../controllers/webSite/auctionBidsCont
 
 router.post("/newAuctionBids", auctionBidsController.actionAuctionUser);
 router.get(
-  "/listAllAuctionsBidsInProduct",
-  auctionBidsController.actionAuctionUser
+  "/listAllAuctionsBidsInProduct/:id",
+  auctionBidsController.getAllActionBidsInOneProduct
 );
 
 module.exports = router;

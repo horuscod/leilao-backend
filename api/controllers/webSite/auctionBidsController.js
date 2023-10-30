@@ -47,50 +47,32 @@ const getOneProductById = async (uidProduct) => {
   }
 };
 
-/* FINAL NÃO MEXER NAS FUNçÕES ACIMA */
-
-const EditProduct = async (UIDProduct) => {
+const goToSetNewLanceInProduct = (uidProduct, userData, valueLance) => {
   admin
     .firestore()
     .collection("products")
-    .doc(UIDProduct)
+    .doc(uidProduct)
     .update({
-      lance: [
-        {
-          namePerson: "nome do usuário",
-          valueLance: "Valor do lance",
-        },
-        {
-          namePerson: "Pesso2",
-          valueLance: "Valor do lance",
-        },
-        {
-          namePerson: "Pesso3",
-          valueLance: "Valor do lance",
-        },
-      ],
-    })
-    .then(() => {
-      return console.log("Documento atualizado com sucesso");
-    })
-    .catch((error) => {
-      return console.error("Erro ao atualizar o documento:", error);
+      lance: admin.firestore.FieldValue.arrayUnion({
+        namePerson: userData.name,
+        valueLance: valueLance,
+      }),
     });
 };
 
-const VerifyProductArrayLance = async (UIDProduct) => {
-  try {
-    await admin.firestore().collection("products").doc(UIDProduct).set(
-      {
-        lance: [],
-      },
-      { merge: true }
-    );
-    console.log("Array de Lance criado no novo produto");
-  } catch (erro) {
-    console.error("Erro ao atualizar o documento:", error);
-  }
+const gotToSetArrayLanceInProduct = (uidProduct) => {
+  admin
+    .firestore()
+    .collection("products")
+    .doc(uidProduct)
+    .update({
+      lance: admin.firestore.FieldValue.arrayUnion({
+        namePerson: "Vitoria Martiz",
+        valueLance: 1,
+      }),
+    });
 };
+/* FINAL NÃO MEXER NAS FUNçÕES ACIMA */
 
 const goToCreatePropertyLanceInDocument = (UIDProduct) => {
   const productcColletion = db.collection("products");
@@ -107,19 +89,6 @@ const goToCreatePropertyLanceInDocument = (UIDProduct) => {
     })
     .catch((error) => {
       return false;
-    });
-};
-
-const goToSetNewLanceInProduct = (uidProduct, userData, valueLance) => {
-  admin
-    .firestore()
-    .collection("products")
-    .doc(uidProduct)
-    .update({
-      lance: admin.firestore.FieldValue.arrayUnion({
-        namePerson: userData.name,
-        valueLance: valueLance,
-      }),
     });
 };
 
@@ -158,7 +127,7 @@ const AddActionAuctionInDocumentProduct = (userJson, UIDProduct) => {
 
 actionAuctionUser = async (req, res) => {
   /* Importante pegar o Usuário que está dando o lance e o Produto que está relacionado ao lance */
-  const uidProduct = "YqDJq6hbTwVofSgvPhdZ";
+  const uidProduct = "mJ52ZDzpeuTsVJDgWGMg";
   const uidUser = "2QlGW9iwqN8rBg8mg0QI";
   const valueLance = 1;
 
@@ -184,6 +153,9 @@ actionAuctionUser = async (req, res) => {
       if (userData) {
         goToSetNewLanceInProduct(uidProduct, userData, valueLance);
       }
+    } else {
+      gotToSetArrayLanceInProduct(uidProduct);
+      goToSetNewLanceInProduct(uidProduct, userData, valueLance);
     }
     // Jsons armazenados
 
@@ -199,6 +171,26 @@ actionAuctionUser = async (req, res) => {
   }
 };
 
+getAllActionBidsInOneProduct = async (req, res) => {
+  const { id } = req.params;
+  const productColletion = db.collection("products");
+  productColletion
+    .doc(id)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const documentData = doc.data();
+        return res.json(documentData);
+      } else {
+        console.log("Documento não encontrado");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao obter o documento: ", error);
+    });
+};
+
 module.exports = {
   actionAuctionUser,
+  getAllActionBidsInOneProduct,
 };
