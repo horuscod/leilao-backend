@@ -5,7 +5,7 @@ const usersController = require("../../controllers/panelAdmin/usersController");
 /* Função para não mexer até o momento */
 const getOneUserByUID = (uid) => {
   //Essa função serve exclusivamente só para pegar os dados do usuário que está dando o Lance
-  const usersCollection = db.collection("usersBackOffice");
+  const usersCollection = db.collection("usersWebSite");
 
   return usersCollection
     .doc(uid)
@@ -72,72 +72,30 @@ const gotToSetArrayLanceInProduct = (uidProduct) => {
       }),
     });
 };
+
+const goToDecreaseBidAmountInUser = (uidUser, value, userData) => {
+  const newValue = userData.cupons - value;
+
+  if (newValue > 0) {
+    admin.firestore().collection("usersWebSite").doc(uidUser).update({
+      cupons: newValue,
+    });
+  }
+};
 /* FINAL NÃO MEXER NAS FUNçÕES ACIMA */
-
-const goToCreatePropertyLanceInDocument = (UIDProduct) => {
-  const productcColletion = db.collection("products");
-  productcColletion
-    .doc(UIDProduct)
-    .set(
-      {
-        lance: [],
-      },
-      { merge: true }
-    )
-    .then(() => {
-      return true;
-    })
-    .catch((error) => {
-      return false;
-    });
-};
-
-const AddActionAuctionInDocumentProduct = (userJson, UIDProduct) => {
-  /* Aqui vou ter que fazer um Update no documento Product */
-  console.log("entrou aqui na função de buscar produto");
-  console.log(userJson);
-
-  admin
-    .firestore()
-    .collection("products")
-    .doc(UIDProduct)
-    .update({
-      lance: [
-        {
-          namePerson: "nome do usuário",
-          valueLance: "Valor do lance",
-        },
-        {
-          namePerson: "Pesso2",
-          valueLance: "Valor do lance",
-        },
-        {
-          namePerson: "Pesso3",
-          valueLance: "Valor do lance",
-        },
-      ],
-    })
-    .then(() => {
-      return console.log("Documento atualizado com sucesso");
-    })
-    .catch((error) => {
-      return console.error("Erro ao atualizar o documento:", error);
-    });
-};
 
 actionAuctionUser = async (req, res) => {
   /* Importante pegar o Usuário que está dando o lance e o Produto que está relacionado ao lance */
-  const uidProduct = "mJ52ZDzpeuTsVJDgWGMg";
-  const uidUser = "2QlGW9iwqN8rBg8mg0QI";
-  const valueLance = 1;
+
+  const { userUID, productUID, valueLance } = req.body;
 
   try {
     // const userData = await getOneUserByUID(uidUser);
 
     // Peguei o Dado do produto
-    const productData = await getOneProductById(uidProduct);
+    const productData = await getOneProductById(productUID);
 
-    const userData = await getOneUserByUID(uidUser);
+    const userData = await getOneUserByUID(userUID);
 
     console.log("------------------------------------------");
     console.log("Dados do usuário Na função Principal");
@@ -151,11 +109,12 @@ actionAuctionUser = async (req, res) => {
       ///Verificação dupla, a tabela de usuário demanda mais tempo para dar o retorno, coisa de 2.3 segundos a média. Por isso não é assync
 
       if (userData) {
-        goToSetNewLanceInProduct(uidProduct, userData, valueLance);
+        goToSetNewLanceInProduct(productUID, userData, valueLance);
+        goToDecreaseBidAmountInUser(userUID, valueLance, userData);
       }
     } else {
-      gotToSetArrayLanceInProduct(uidProduct);
-      goToSetNewLanceInProduct(uidProduct, userData, valueLance);
+      gotToSetArrayLanceInProduct(userUID, valueLance);
+      goToSetNewLanceInProduct(productUID, userData, valueLance);
     }
     // Jsons armazenados
 
