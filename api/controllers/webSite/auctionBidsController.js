@@ -82,6 +82,26 @@ const goToDecreaseBidAmountInUser = (uidUser, value, userData) => {
     });
   }
 };
+
+const goToFreeProduct = (uidProduct, productData, value) => {
+  const newValue = productData.currentValueLance + value;
+  const valueFreeProduct = productData.valueFree;
+  const currentValueLance = productData.currentValueLance;
+  const botWinner = productData.botWin;
+
+  admin.firestore().collection("products").doc(uidProduct).update({
+    currentValueLance: newValue,
+  });
+
+  if (currentValueLance >= valueFreeProduct) {
+    return console.log("Você ganhou o premio");
+    /* Rergra de ganhador na tabela  */
+    /* Regra do bot se vai ou não ter um ganhador */
+  } else {
+    return console.log("Não ganhou tente novamente");
+  }
+};
+
 /* FINAL NÃO MEXER NAS FUNçÕES ACIMA */
 
 actionAuctionUser = async (req, res) => {
@@ -111,10 +131,15 @@ actionAuctionUser = async (req, res) => {
       if (userData) {
         goToSetNewLanceInProduct(productUID, userData, valueLance);
         goToDecreaseBidAmountInUser(userUID, valueLance, userData);
+
+        goToFreeProduct(productUID, productData, valueLance);
       }
     } else {
       gotToSetArrayLanceInProduct(userUID, valueLance);
       goToSetNewLanceInProduct(productUID, userData, valueLance);
+      goToFreeProduct(productData);
+
+      goToFreeProduct(productUID, productData, valueLance);
     }
     // Jsons armazenados
 
