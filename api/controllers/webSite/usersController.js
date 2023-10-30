@@ -32,6 +32,7 @@ createUserLoginPage = (req, res) => {
           name: name || "",
           typeProfile: 0,
           dataCreated: dateCurrentily,
+          cupons: 0,
         })
         .then(() => {
           console.log("Document created with ID:", docRef.id);
