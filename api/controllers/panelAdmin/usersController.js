@@ -298,6 +298,25 @@ deleteEditorUser = (req, res) => {
   return true;
 };
 
+getOneUserByUID = (uid, res) => {
+  const db = admin.firestore();
+  const usersCollection = db.collection("usersBackOffice");
+  usersCollection
+    .doc(uid)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const documentData = doc.data();
+        return res.json(documentData);
+      } else {
+        console.log("Documento não encontrado");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao obter o documento: ", error);
+    });
+};
+
 module.exports = {
   createNewAdminUser,
   getAllAdminUsers,
@@ -307,4 +326,5 @@ module.exports = {
   getAllEditorsUsers,
   editEditorUser,
   deleteEditorUser,
+  getOneUserByUID,
 };
