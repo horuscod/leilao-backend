@@ -80,6 +80,9 @@ getOneUserByUID = (req, res) => {
   const db = admin.firestore();
   const { userUID } = req.body;
 
+  console.log(userUID);
+  console.log('Chamo e não vem nada')
+
   const usersCollection = db.collection("usersWebSite");
   usersCollection
     .doc(userUID)
