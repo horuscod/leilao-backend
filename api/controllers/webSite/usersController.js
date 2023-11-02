@@ -78,28 +78,26 @@ userLogin = (req, res) => {
 };
 
 getOneUserByUID = (req, res) => {
-  const db = admin.firestore();
   const { userUID } = req.body;
-
-  console.log(req.body);
-
-  console.log(userUID);
-  console.log("Chamo e não vem nada");
-
+  const db = admin.firestore();
   const usersCollection = db.collection("usersWebSite");
+  const responseData = [];
+
   usersCollection
-    .doc(userUID)
+    .where("uidAuth", "==", userUID)
     .get()
-    .then((doc) => {
-      if (doc.exists) {
-        const documentData = doc.data();
-        return res.json(documentData);
-      } else {
-        console.log("Documento não encontrado");
-      }
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        var document = doc.data();
+        responseData.push(document);
+      });
+      res.json(responseData);
+
+      return res.status(200).end();
     })
     .catch((error) => {
-      console.error("Erro ao obter o documento: ", error);
+      console.error("Erro ao obter documentos: ", error);
+      res.status(500).json({ error: "Erro ao obter documentos" });
     });
 };
 
