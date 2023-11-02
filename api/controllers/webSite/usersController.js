@@ -78,13 +78,13 @@ userLogin = (req, res) => {
 };
 
 getOneUserByUID = (req, res) => {
-  const { userUID } = req.body;
+  const { email } = req.body;
   const db = admin.firestore();
   const usersCollection = db.collection("usersWebSite");
   const responseData = [];
 
   usersCollection
-    .where("uidAuth", "==", userUID)
+    .where("email", "==", email)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
