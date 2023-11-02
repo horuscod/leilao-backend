@@ -97,4 +97,4 @@ getOneUserByUID = (req, res) => {
     });
 };
 
-module.exports = { createUserLoginPage, userLogin };
+module.exports = { createUserLoginPage, userLogin, getOneUserByUID };
