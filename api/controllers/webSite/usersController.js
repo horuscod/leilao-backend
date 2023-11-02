@@ -27,6 +27,7 @@ createUserLoginPage = (req, res) => {
       docRef
         .set({
           uid: docRef.id,
+          uidAuth: userRecord.uid,
           photoURL: userRecord.photoURL || null,
           email: userRecord.email,
           name: name || "",
