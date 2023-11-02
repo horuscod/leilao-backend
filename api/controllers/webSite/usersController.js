@@ -76,4 +76,25 @@ userLogin = (req, res) => {
     });
 };
 
+getOneUserByUID = (req, res) => {
+  const db = admin.firestore();
+  const { userUID } = req.body;
+
+  const usersCollection = db.collection("usersWebSite");
+  usersCollection
+    .doc(userUID)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const documentData = doc.data();
+        return res.json(documentData);
+      } else {
+        console.log("Documento não encontrado");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao obter o documento: ", error);
+    });
+};
+
 module.exports = { createUserLoginPage, userLogin };
