@@ -102,7 +102,7 @@ getOneUserByUID = (req, res) => {
       console.log(responseData);
       res.json(responseData);
 
-      return res.status(200).end();
+      res.status(200).end();
     })
     .catch((error) => {
       console.error("Erro ao obter documentos: ", error);
