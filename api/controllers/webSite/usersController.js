@@ -78,7 +78,12 @@ userLogin = (req, res) => {
 };
 
 getOneUserByUID = (req, res) => {
+  console.log("debugaarrrr");
+  console.log(req.body);
+  console.log("debugaarrrr");
   const { email } = req.body;
+
+  console.log(email);
   const db = admin.firestore();
   const usersCollection = db.collection("usersWebSite");
   const responseData = [];
@@ -91,6 +96,10 @@ getOneUserByUID = (req, res) => {
         var document = doc.data();
         responseData.push(document);
       });
+
+      console.log("debugar data resposta");
+
+      console.log(responseData);
       res.json(responseData);
 
       return res.status(200).end();
