@@ -40,8 +40,10 @@ app.use(championsBackofficeRouters);
 
 const usersRouters = require("./api/routes/webSite/usersRouters");
 const auctionBidsRouters = require("./api/routes/webSite/auctionBidsRouters");
+const productsOffertRoutres = require("./api/routes/webSite/productsOffertsRouters");
 app.use(usersRouters);
 app.use(auctionBidsRouters);
+app.use(productsOffertRoutres);
 
 app.get("/", (req, res) => {
   res.send("Olá, Hórus!");
