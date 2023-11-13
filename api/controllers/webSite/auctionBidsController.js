@@ -48,15 +48,35 @@ const getOneProductById = async (uidProduct) => {
 };
 
 const goToSetNewLanceInProduct = (uidProduct, userData, valueLance) => {
-  admin
-    .firestore()
-    .collection("products")
-    .doc(uidProduct)
-    .update({
-      lance: admin.firestore.FieldValue.arrayUnion({
-        namePerson: userData.name,
-        valueLance: valueLance,
-      }),
+  const productRef = admin.firestore().collection("products").doc(uidProduct);
+  const valueFormat = valueLance / 100;
+  return productRef
+    .get()
+    .then((productDoc) => {
+      if (!productDoc.exists) {
+        console.error("Produto não encontrado");
+        return Promise.reject(new Error("Produto não encontrado"));
+      }
+
+      const currentLance = productDoc.data().currentValueLance || 1;
+      //0.99
+      const auxCurrent = parseFloat(currentLance);
+      const newLanceValue = parseFloat(valueFormat) + auxCurrent;
+      const aux = newLanceValue.toFixed(2);
+
+      return productRef.update({
+        currentValueLance: parseFloat(aux),
+        lance: admin.firestore.FieldValue.arrayUnion({
+          namePerson: userData.name,
+          valueLance: parseFloat(aux),
+        }),
+      });
+    })
+    .then(() => {
+      console.log("Lance atualizado com sucesso!");
+    })
+    .catch((error) => {
+      console.error("Erro ao definir novo lance no produto:", error);
     });
 };
 
@@ -75,6 +95,7 @@ const gotToSetArrayLanceInProduct = (uidProduct) => {
 
 const goToDecreaseBidAmountInUser = (uidUser, value, userData) => {
   const newValue = userData.cupons - value;
+  console.log(newValue);
 
   if (newValue > 0) {
     admin.firestore().collection("usersWebSite").doc(uidUser).update({
@@ -84,14 +105,9 @@ const goToDecreaseBidAmountInUser = (uidUser, value, userData) => {
 };
 
 const goToFreeProduct = (uidProduct, productData, value) => {
-  const newValue = productData.currentValueLance + value;
   const valueFreeProduct = productData.valueFree;
   const currentValueLance = productData.currentValueLance;
   const botWinner = productData.botWin;
-
-  admin.firestore().collection("products").doc(uidProduct).update({
-    currentValueLance: newValue,
-  });
 
   if (currentValueLance >= valueFreeProduct) {
     return console.log("Você ganhou o premio");
