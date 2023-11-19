@@ -1,6 +1,7 @@
 const admin = require("../../../config/firebase-config");
 const { initializeApp } = require("firebase/app");
 const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
+const db = admin.firestore();
 
 const getDateHoursSaoPaulo = () => {
   const dataAtual = new Date();
@@ -13,7 +14,6 @@ const getDateHoursSaoPaulo = () => {
 };
 
 createUserLoginPage = (req, res) => {
-  const db = admin.firestore();
   const { name, email, password } = req.body;
   var dateCurrentily = getDateHoursSaoPaulo();
   admin
@@ -84,7 +84,6 @@ getOneUserByUID = (req, res) => {
   const { email } = req.body;
 
   console.log(email);
-  const db = admin.firestore();
   const usersCollection = db.collection("usersWebSite");
   const responseData = [];
 
@@ -110,4 +109,109 @@ getOneUserByUID = (req, res) => {
     });
 };
 
-module.exports = { createUserLoginPage, userLogin, getOneUserByUID };
+updateUserInfoPerson = (req, res) => {
+  const {
+    email,
+    fullName,
+    tell,
+    phone,
+    documentCPF,
+    documentRG,
+    dateBorn,
+    keyPIX,
+  } = req.body;
+
+  const usersCollection = db.collection("usersWebSite");
+
+  usersCollection
+    .where("email", "==", email)
+    .get()
+    .then((querySnapshot) => {
+      if (querySnapshot.empty) {
+        res.status(404).json({ error: "Usuário não encontrado" });
+        return;
+      }
+
+      querySnapshot.forEach((doc) => {
+        usersCollection
+          .doc(doc.id)
+          .update({
+            fullName: fullName,
+            tell: tell,
+            phone: phone,
+            documentCPF: documentCPF,
+            documentRG: documentRG,
+            dateBorn: dateBorn,
+            keyPIX: keyPIX,
+          })
+          .then(() => {
+            res.status(200).json({ message: "Perfil atualizado com sucesso" });
+          })
+          .catch((error) => {
+            console.error("Erro ao atualizar o documento: ", error);
+            res.status(500).json({ error: "Erro ao atualizar o documento" });
+          });
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao obter documentos: ", error);
+      res.status(500).json({ error: "Erro ao obter documentos" });
+    });
+};
+updateUserInfoAddress = (req, res) => {
+  const {
+    email,
+    adrressCEP,
+    adrressState,
+    adrressCity,
+    addressDistrict,
+    addressFull,
+    addressComplement,
+    addressNumber,
+  } = req.body;
+
+  const usersCollection = db.collection("usersWebSite");
+
+  usersCollection
+    .where("email", "==", email)
+    .get()
+    .then((querySnapshot) => {
+      if (querySnapshot.empty) {
+        res.status(404).json({ error: "Usuário não encontrado" });
+        return;
+      }
+
+      querySnapshot.forEach((doc) => {
+        usersCollection
+          .doc(doc.id)
+          .update({
+            adrressCEP: adrressCEP,
+            adrressState: adrressState,
+            adrressCity: adrressCity,
+            addressDistrict: addressDistrict,
+            addressFull: addressFull,
+            addressComplement: addressComplement,
+            addressNumber: addressNumber,
+          })
+          .then(() => {
+            res.status(200).json({ message: "Perfil atualizado com sucesso" });
+          })
+          .catch((error) => {
+            console.error("Erro ao atualizar o documento: ", error);
+            res.status(500).json({ error: "Erro ao atualizar o documento" });
+          });
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao obter documentos: ", error);
+      res.status(500).json({ error: "Erro ao obter documentos" });
+    });
+};
+
+module.exports = {
+  createUserLoginPage,
+  userLogin,
+  getOneUserByUID,
+  updateUserInfoPerson,
+  updateUserInfoAddress,
+};
